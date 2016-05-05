@@ -2,8 +2,8 @@
 
 Maze* read_maze(int width, int height, FILE* source) {
     char** content = malloc(sizeof(char*) * height);
-    Vector2* A;
-    Vector2* B;
+    Vector2* A = NULL;
+    Vector2* B = NULL;
 
     for (int j = 0; j < height; j++) {
         content[j] = malloc(sizeof(char) * width);
