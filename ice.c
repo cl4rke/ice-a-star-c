@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "maze.h"
+#include "input.h"
 
 int main() {
     FILE* file_source = fopen("input.txt", "r");
