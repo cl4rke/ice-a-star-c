@@ -1,27 +1,13 @@
 #include <stdlib.h>
+#include "vectors.h"
 
-typedef struct Vector2 Vector2;
 typedef struct Maze Maze;
-
-struct Vector2 {
-    int x;
-    int y;
-};
 
 struct Maze {
     char** content;
     Vector2* A;
     Vector2* B;
 };
-
-Vector2* create_vector2(int x, int y) {
-    Vector2* vector2 = malloc(sizeof(Vector2*));
-
-    vector2->x = x;
-    vector2->y = y;
-
-    return vector2;
-}
 
 Maze* create_maze(char** content, Vector2* A, Vector2* B) {
     Maze* maze = malloc(sizeof(Maze*));
@@ -58,11 +44,11 @@ Maze* read_maze(int width, int height, FILE* source) {
 }
 
 void print_maze(int width, int height, Maze* maze) {
-    Vector2* A = maze->A;
-    Vector2* B = maze->B;
+    printf("A: ");
+    print_vector2(maze->A);
 
-    printf("A: %d, %d\n", A->x, A->y);
-    printf("B: %d, %d\n", B->x, B->y);
+    printf("B: ");
+    print_vector2(maze->B);
 
     for (int j = 0; j < height; j++) {
         printf("%s\n", maze->content[j]);
