@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 typedef struct Vector2 Vector2;
 
 struct Vector2 {
