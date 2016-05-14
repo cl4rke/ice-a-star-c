@@ -9,8 +9,8 @@ struct Maze {
     Vector2* B;
 };
 
-Maze* create_maze(char** content, Vector2* A, Vector2* B) {
-    Maze* maze = malloc(sizeof(Maze*));
+Maze* create_maze(char** content, int width, int height, Vector2* A, Vector2* B) {
+    Maze* maze = malloc(sizeof(content) * width * height + sizeof(Maze*));
 
     maze->content = content;
     maze->A = A;
@@ -19,7 +19,7 @@ Maze* create_maze(char** content, Vector2* A, Vector2* B) {
     return maze;
 }
 
-void print_maze(int width, int height, Maze* maze) {
+void print_maze(int height, Maze* maze) {
     printf("A: ");
     print_vector2(maze->A);
 
