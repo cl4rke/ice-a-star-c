@@ -7,57 +7,45 @@
 int main() {
     FILE* file_source = fopen("input.txt", "r");
 
-    int height = read_int(file_source),
-        width  = read_int(file_source);
+    int cases_count = read_int(file_source);
 
-    printf("%d %d\n", width, height);
+    for (int case_number = 0; case_number < cases_count; case_number++) {
+        int height = read_int(file_source),
+            width  = read_int(file_source);
 
-    int case_number = 0;
+        Maze* maze = read_maze(width, height, file_source);
 
-    GraphNodeList* graph_node_list = create_graph_node_list();
+        GraphNodeList* graph_node_list = create_graph_node_list();
+        add_graph_node(graph_node_list, create_graph_node(NULL, maze->A, maze->B));
 
-    Maze* maze = read_maze(width, height, file_source);
+        int search_is_successful = 1;
+        GraphNode* goal;
 
-    fclose(file_source);
+        while ((goal = find_graph_node_by_position(graph_node_list, maze->B)) == NULL) {
+            GraphNode* node_to_explore = get_best_open_graph_node(graph_node_list);
 
-    printf("Printing maze...\n");
-    print_maze(height, maze);
+            if (node_to_explore == NULL) {
+                search_is_successful = 0;
+                break;
+            }
 
-    printf("Creating start graph node...\n");
-    GraphNode* start = create_graph_node(NULL, maze->A, maze->B);
+            add_graph_nodes(graph_node_list, explore_adjacent_graph_nodes(node_to_explore, maze));
+        }
 
-    printf("Adding start to list...\n");
-    add_graph_node(graph_node_list, start);
+        printf("Case #%d: ", case_number + 1);
 
-    printf("Printing list...\n");
-    print_graph_node_list(graph_node_list);
+        if (search_is_successful) {
+            print_path_cost_to(goal);
+            print_path_to(goal);
+        } else {
+            printf("no solution\n");
+        }
+        printf("\n");
 
-    GraphNode* goal;
-    while ((goal = find_graph_node_by_position(graph_node_list, maze->B)) == NULL) {
-        printf("Exploring...\n");
-
-        GraphNode* node_to_explore = get_best_open_graph_node(graph_node_list);
-        print_graph_node(node_to_explore);
-
-        GraphNodeList* discoveries = explore_adjacent_graph_nodes(node_to_explore, maze);
-
-        printf("Printing discoveries...\n");
-        print_graph_node_list(discoveries);
-
-        printf("Adding all discoveries to list...\n");
-        add_graph_nodes(graph_node_list, discoveries);
-
-        printf("Printing list...\n");
-        print_graph_node_list(graph_node_list);
+        free(maze);
+        free(graph_node_list);
     }
 
-    print_graph_node(goal);
-    printf("Case #%d: ", case_number + 1);
-    print_path_cost_to(goal);
-    print_path_to(goal);
-
-    free(start);
-    free(graph_node_list);
-    free(maze);
+    fclose(file_source);
 }
 
