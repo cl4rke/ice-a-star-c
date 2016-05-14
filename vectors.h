@@ -24,6 +24,19 @@ Vector2* subtract_vector2(Vector2* destination, Vector2* source) {
     return create_vector2(destination->x - source->x, destination->y - source->y);
 }
 
+int same_vector2_direction(Vector2* v1, Vector2* v2) {
+    if (v1->x < 0 && v2->x < 0) {
+        return 1;
+    } else if (v1->x > 0 && v2->x > 0) {
+        return 1;
+    } else if (v1->y < 0 && v2->y < 0) {
+        return 1;
+    } else if (v1->y > 0 && v2->y > 0) {
+        return 1;
+    }
+    return 0;
+}
+
 char* get_vector2_name(Vector2* vector2) {
     if (vector2->x < 0) {
         return "left";
